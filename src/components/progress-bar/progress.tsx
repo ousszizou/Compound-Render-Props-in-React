@@ -41,7 +41,6 @@ export const ProgressBarIndicator = React.forwardRef<
   HTMLDivElement,
   ProgressBarIndicatorProps
 >(({ className, percentage, ...props }, ref) => {
-  // const { percentage } = useProgressContext();
   return (
     <div
       ref={ref}
