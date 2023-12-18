@@ -31,6 +31,9 @@ export const useProgress = (props: UseProgressProps) => {
     id,
     label,
     valueLabel,
+    value = 0,
+    minValue = 0,
+    maxValue = 100,
     formatOptions = {
       style: "percent",
     },
@@ -48,9 +51,19 @@ export const useProgress = (props: UseProgressProps) => {
     id,
     label,
     valueLabel,
+    value,
+    minValue,
+    maxValue,
     formatOptions,
     isIndeterminate,
   });
+
+  const percentage = useMemo(() => {
+    if (isIndeterminate) {
+      return undefined;
+    }
+    return ((value - minValue) / (maxValue - minValue)) * 100;
+  }, [value, minValue, maxValue, isIndeterminate]);
 
   const getProgressBarProps: PropGetter = useCallback(
     (additionalProps = {}) => ({
@@ -71,6 +84,8 @@ export const useProgress = (props: UseProgressProps) => {
   return {
     Component,
     domRef,
+    value,
+    percentage,
     getProgressBarProps,
     getLabelProps,
   };

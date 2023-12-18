@@ -33,14 +33,13 @@ export const ProgressBarTrack = React.forwardRef<
 ProgressBarTrack.displayName = "ProgressBarTrack";
 
 interface ProgressBarIndicatorProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-    percentage: number
-  }
+  extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const ProgressBarIndicator = React.forwardRef<
   HTMLDivElement,
   ProgressBarIndicatorProps
->(({ className, percentage, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
+  const { percentage } = useProgressContext();
   return (
     <div
       ref={ref}
@@ -52,16 +51,29 @@ export const ProgressBarIndicator = React.forwardRef<
 });
 ProgressBarIndicator.displayName = "ProgressBarIndicator";
 
-interface ProgressBarLabelProps extends React.HTMLAttributes<HTMLSpanElement> {}
+type ProgressBarLabelRenderProp = (props: {
+  percentage?: number;
+  label?: string;
+  valueLabel?: string;
+  value?: number;
+}) => React.ReactNode;
+
+interface ProgressBarLabelProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
+  label?: string;
+  valueLabel?: string;
+  children: ProgressBarLabelRenderProp;
+}
 
 export const ProgressBarLabel = React.forwardRef<
   HTMLSpanElement,
   ProgressBarLabelProps
->(({ children, className,...props }, ref) => {
-  const { getLabelProps } = useProgressContext();
+>(({ label, valueLabel, children, ...props }, ref) => {
+  const { getLabelProps, percentage, value } = useProgressContext();
+  const labelContent = children({ percentage, label, valueLabel, value });
   return (
-    <span ref={ref} {...getLabelProps()} className={className} {...props}>
-      {children}
+    <span ref={ref} {...getLabelProps()} {...props}>
+      {labelContent}
     </span>
   );
 });
