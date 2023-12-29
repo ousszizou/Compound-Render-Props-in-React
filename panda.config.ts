@@ -1,7 +1,9 @@
 import { defineConfig } from "@pandacss/dev";
-import { colors as semanticColors } from "./src/theme/semantic-tokens/colors";
+import myPreset from "./src/theme/preset"
+import pandaPreset from "@pandacss/preset-panda";
 
 export default defineConfig({
+  presets: [pandaPreset, myPreset],
   // Whether to use css reset
   preflight: true,
 
@@ -13,11 +15,7 @@ export default defineConfig({
 
   // Useful for theme customization
   theme: {
-    extend: {
-      semanticTokens: {
-        colors: semanticColors,
-      },
-    },
+    extend: {},
   },
 
   // The output directory for your css system

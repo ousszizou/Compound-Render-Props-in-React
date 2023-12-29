@@ -7,11 +7,11 @@ import { ProgressContext, useProgressContext } from "./progress-context";
 interface ProgressBarProps extends UseProgressProps {}
 
 export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
-  ({ children, className,...props }, ref) => {
+  ({ children, ...props }, ref) => {
     const state = useProgress({ ...props, ref });
     return (
       <ProgressContext.Provider value={state}>
-        <div {...state.getProgressBarProps()} className={className}>{children}</div>
+        <div {...state.getProgressBarProps()}>{children}</div>
       </ProgressContext.Provider>
     );
   }
@@ -23,9 +23,10 @@ interface ProgressBarTrackProps extends React.HTMLAttributes<HTMLDivElement> {}
 export const ProgressBarTrack = React.forwardRef<
   HTMLDivElement,
   ProgressBarTrackProps
->(({ children, className, ...props }, ref) => {
+>(({ children, ...props }, ref) => {
+  const { getProgressBarTrackProps } = useProgressContext();
   return (
-    <div ref={ref} className={className} {...props}>
+    <div ref={ref} {...getProgressBarTrackProps()} {...props}>
       {children}
     </div>
   );
@@ -38,16 +39,9 @@ interface ProgressBarIndicatorProps
 export const ProgressBarIndicator = React.forwardRef<
   HTMLDivElement,
   ProgressBarIndicatorProps
->(({ className, ...props }, ref) => {
-  const { percentage } = useProgressContext();
-  return (
-    <div
-      ref={ref}
-      style={{ width: percentage ? `${percentage.toFixed(0)}%` : "0" }}
-      className={className}
-      {...props}
-    />
-  );
+>(({ ...props }, ref) => {
+  const { getProgressBarIndicatorProps } = useProgressContext();
+  return <div ref={ref} {...getProgressBarIndicatorProps()} {...props} />;
 });
 ProgressBarIndicator.displayName = "ProgressBarIndicator";
 

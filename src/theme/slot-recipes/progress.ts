@@ -1,6 +1,8 @@
-import { RecipeVariantProps, sva } from "../../../styled-system/css";
+import { defineSlotRecipe } from "@pandacss/dev";
 
-export const progressBar = sva({
+export const progressBar = defineSlotRecipe({
+  className: "progress-bar",
+  description: "Styles for the Progress Bar component",
   slots: ["root", "track", "indicator", "label"],
   base: {
     root: {
@@ -54,8 +56,6 @@ export const progressBar = sva({
   },
   defaultVariants: {
     size: "md",
-    isIndeterminate: false
+    isIndeterminate: true
   },
 });
-
-export type ProgressBarVariants = RecipeVariantProps<typeof progressBar>
