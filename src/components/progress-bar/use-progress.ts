@@ -90,11 +90,11 @@ export const useProgress = (props: UseProgressProps) => {
   );
 
   const getLabelProps: PropGetter = useCallback(
-    ({ ...additionalProps } = {}) => ({
+    ({ className, ...additionalProps } = {}) => ({
       // className: progressBar({ size, isIndeterminate }).label,
       className: labelStyles({
         class: `${isIndeterminate ? "text-orange-400" : "text-black"
-          } font-semibold ${additionalProps.className}`
+          } font-semibold ${className}`
       }),
       ...mergeProps(labelProps, additionalProps),
     }),
@@ -102,18 +102,18 @@ export const useProgress = (props: UseProgressProps) => {
   );
 
   const getProgressBarTrackProps: PropGetter = useCallback(
-    (additionalProps = {}) => ({
+    ({ className, ...additionalProps } = {}) => ({
       // className: progressBar({ size, isIndeterminate }).track,
-      className: trackStyles({ class: additionalProps.className }),
+      className: trackStyles({ class: className }),
       ...additionalProps,
     }),
     [trackStyles],
   );
 
   const getProgressBarIndicatorProps: PropGetter = useCallback(
-    (additionalProps = {}) => ({
+    ({ className, ...additionalProps } = {}) => ({
       // className: progressBar({ isIndeterminate }).indicator,
-      className: indicatorStyles({ class: additionalProps.className }),
+      className: indicatorStyles({ class: className }),
       style: {
         width: percentage ? `${percentage.toFixed(0)}%` : "0",
         ...additionalProps.style,

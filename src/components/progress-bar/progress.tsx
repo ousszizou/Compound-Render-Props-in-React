@@ -39,9 +39,17 @@ interface ProgressBarIndicatorProps
 export const ProgressBarIndicator = React.forwardRef<
   HTMLDivElement,
   ProgressBarIndicatorProps
->(({ ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   const { getProgressBarIndicatorProps } = useProgressContext();
-  return <div ref={ref} {...getProgressBarIndicatorProps()} {...props} />;
+  return (
+    <div
+      ref={ref}
+      {...getProgressBarIndicatorProps({
+        className,
+      })}
+      {...props}
+    />
+  );
 });
 ProgressBarIndicator.displayName = "ProgressBarIndicator";
 
