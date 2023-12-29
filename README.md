@@ -1,6 +1,6 @@
 # Unlocking Flexibility: Compound & Render Props in React
 
-This repository branch *'with-compound-pattern'* accompanies the article [Unlocking Flexibility: Compound & Render Props in React - part 1](https://eqraatech.com) and provides the code and examples discussed.
+This repository branch *'with-compound-pattern'* accompanies the article [Unlocking Flexibility: Compound & Render Props in React - part 1](https://eqraatech.com/compound-render-props-in-react-part-1-14247) and provides the code and examples discussed.
 
 ## Branches:
 
