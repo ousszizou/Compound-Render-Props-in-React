@@ -5,8 +5,6 @@ import { AriaProgressBarProps, useProgressBar } from "@react-aria/progress";
 import React, { useMemo, useRef, useCallback, type ElementType } from "react";
 import { PropGetter, dataAttr } from "./types";
 import { mergeProps } from "@react-aria/utils";
-// import { ProgressBarVariantProps, progressBar } from "../../../styled-system/recipes"
-import { progress, ProgressVariantProps } from "../../new-styling-approach/progress"
 
 type ComponentType =
   | ElementType
@@ -23,18 +21,14 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   ref?: React.Ref<HTMLElement>;
 }
 
-// export type UseProgressProps = Props &
-//   AriaProgressBarProps & ProgressBarVariantProps;
-
 export type UseProgressProps = Props &
-  AriaProgressBarProps & ProgressVariantProps;
+  AriaProgressBarProps;
 
 export const useProgress = (props: UseProgressProps) => {
   const {
     ref,
     asChild,
     id,
-    size,
     label,
     valueLabel,
     value = 0,
@@ -46,13 +40,6 @@ export const useProgress = (props: UseProgressProps) => {
     isIndeterminate,
     ...otherProps
   } = props;
-
-  const {
-    base: baseStyles,
-    indicator: indicatorStyles,
-    label: labelStyles,
-    track: trackStyles,
-  } = progress({ size, isIndeterminate });
 
   const domRef = useRef(ref);
 
@@ -81,52 +68,40 @@ export const useProgress = (props: UseProgressProps) => {
   const getProgressBarProps: PropGetter = useCallback(
     (additionalProps = {}) => ({
       ref: domRef,
-      // className: progressBar({ size, isIndeterminate }).root,
-      className: baseStyles({ class: otherProps.className }),
       "data-indeterminate": dataAttr(isIndeterminate),
       ...mergeProps(progressBarProps, otherProps, additionalProps),
     }),
-    [baseStyles, isIndeterminate, progressBarProps, otherProps],
+    [isIndeterminate, progressBarProps, otherProps],
   );
 
   const getLabelProps: PropGetter = useCallback(
-    ({ className, ...additionalProps } = {}) => ({
-      // className: progressBar({ size, isIndeterminate }).label,
-      className: labelStyles({
-        class: `${isIndeterminate ? "text-orange-400" : "text-black"
-          } font-semibold ${className}`
-      }),
+    (additionalProps = {}) => ({
       ...mergeProps(labelProps, additionalProps),
     }),
-    [isIndeterminate, labelProps, labelStyles],
+    [labelProps],
   );
 
   const getProgressBarTrackProps: PropGetter = useCallback(
-    ({ className, ...additionalProps } = {}) => ({
-      // className: progressBar({ size, isIndeterminate }).track,
-      className: trackStyles({ class: className }),
+    (additionalProps = {}) => ({
       ...additionalProps,
     }),
-    [trackStyles],
+    [],
   );
 
   const getProgressBarIndicatorProps: PropGetter = useCallback(
-    ({ className, ...additionalProps } = {}) => ({
-      // className: progressBar({ isIndeterminate }).indicator,
-      className: indicatorStyles({ class: className }),
+    (additionalProps = {}) => ({
       style: {
         width: percentage ? `${percentage.toFixed(0)}%` : "0",
         ...additionalProps.style,
       },
       ...additionalProps,
     }),
-    [indicatorStyles, percentage],
+    [percentage],
   );
 
   return {
     Component,
     domRef,
-    size,
     value,
     percentage,
     isIndeterminate,
